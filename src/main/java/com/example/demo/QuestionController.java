@@ -44,7 +44,8 @@ public class QuestionController {
         if(StringUtil.isEmpty(page)){
             page = "1";
         }
-        PageBean pageBean = new PageBean(Integer.parseInt(page), 8);
+        PageBean pageBean = new PageBean(Integer.parseInt(page), 8
+        );
         List<QuestionDto> questionList = questionService.getQuestions(subject, pageBean,ObjectUtils.isEmpty(paperId)? null:Integer.valueOf(paperId));
         int total = questionService.questionCount(subject,ObjectUtils.isEmpty(paperId)? null:Integer.valueOf(paperId));
         String pageCode= PapeUtil.getPagation(request.getContextPath()+"/questionList",total, Integer.parseInt(page), 8,subject);
@@ -54,7 +55,6 @@ public class QuestionController {
 
         List<Paper> paperList = paperService.getPaperList();
         mod.addAttribute("paperList",paperList);
-        sss
 
         return "question/questionList";
     }
