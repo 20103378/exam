@@ -1,14 +1,11 @@
 package com.example.demo;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.domain.PageBean;
 import com.example.dto.PaperDto;
-import com.example.dto.QuestionDto;
 import com.example.entity.Paper;
 import com.example.entity.Question;
 import com.example.service.PaperService;
 import com.example.service.QuestionService;
-import com.example.utils.PapeUtil;
 import com.example.utils.ResponseUtil;
 import com.example.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
