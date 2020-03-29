@@ -26,5 +26,5 @@ public class Question implements Serializable {
 
     private String type;
 
-    private Integer paperid;
+    private Integer paperId;
 }

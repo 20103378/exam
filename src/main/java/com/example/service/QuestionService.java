@@ -12,10 +12,10 @@ import java.util.List;
 public interface QuestionService {
 
     void deleteQuestion(Integer questionId);
-    List<QuestionDto> getQuestions(String subject, PageBean pageBean,Integer paperId ) throws Exception;
-    int questionCount(String subject,Integer paperId) throws Exception;
 
     QuestionDto getQuestionById(Integer questionId);
 
     void saveQuestion(Question question);
+
+    List<QuestionDto> getQuestionsByPaperId(Integer paperId);
 }

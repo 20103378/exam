@@ -41,22 +41,16 @@
     delete from t_paper
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.entity.Paper" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    insert into t_paper (id, joinDate, paperName
-      )
-    values (#{id,jdbcType=INTEGER}, #{joinDate,jdbcType=TIMESTAMP}, #{paperName,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.entity.Paper">
+  <insert id="insertSelective" parameterType="com.example.entity.Paper" useGeneratedKeys="true" keyProperty="id">
     insert into t_paper
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="joindate != null">
+      <if test="joinDate != null">
         joinDate,
       </if>
-      <if test="papername != null">
+      <if test="paperName != null">
         paperName,
       </if>
     </trim>
@@ -64,36 +58,30 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="joindate != null">
-        #{joindate,jdbcType=TIMESTAMP},
+      <if test="joinDate != null">
+        #{joinDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="papername != null">
-        #{papername,jdbcType=VARCHAR},
+      <if test="paperName != null">
+        #{paperName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.Paper">
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.entity.Paper" useGeneratedKeys="true" keyProperty="id">
     update t_paper
     <set>
-      <if test="joindate != null">
-        joinDate = #{joindate,jdbcType=TIMESTAMP},
+      <if test="joinDate != null">
+        joinDate = #{joinDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="papername != null">
-        paperName = #{papername,jdbcType=VARCHAR},
+      <if test="paperName != null">
+        paperName = #{paperName,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.entity.Paper">
-    update t_paper
-    set joinDate = #{joinDate,jdbcType=TIMESTAMP},
-      paperName = #{paperName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="getPaperList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_paper
+    from t_paper order by joinDate desc
   </select>
   <select id="getByPaperName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select

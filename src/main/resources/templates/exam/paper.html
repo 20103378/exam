@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表页面</title>
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+
+
+    <style>
+        /*设置表格th标题居中显示*/
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle!important;
+        }
+    </style>
+
+</head>
+
+<!--<script type="text/javascript">-->
+    <!--function checkForm(){-->
+        <!--var paperId=$("#paperId").val();-->
+        <!--if(paperId==null||paperId==""){-->
+            <!--alert("请选择考试试卷！");-->
+            <!--return false;-->
+        <!--}-->
+        <!--return true;-->
+    <!--}-->
+<!--</script>-->
+
+<script type="text/javascript">
+    function checkForm() {
+        var divArray = document.getElementsByName("hidden");
+        for (i = 0; i < divArray.length; i++) {
+            divArray[i].style.display = "";
+        }
+    }
+    var examTime=20*60;
+    var useTime=0,remainTime=examTime;
+
+    // 显示使用时间和剩余时间
+    function showCount(){
+        if(remainTime==0){
+            document.getElementById("myForm").submit();
+        }
+        useTime+=1;
+        remainTime-=1;
+        var hourU=Math.floor(useTime/3600);
+        var minuteU=Math.floor((useTime-hourU*3600)/60);
+        var secondU=Math.floor(useTime-hourU*3600-minuteU*60);
+        document.getElementById("useTime").innerHTML=format(hourU)+":"+format(minuteU)+":"+format(secondU);
+
+        var hourR=Math.floor(remainTime/3600);
+        var minuteR=Math.floor((remainTime-hourR*3600)/60);
+        var secondR=Math.floor(remainTime-hourR*3600-minuteR*60);
+        document.getElementById("remainTime").innerHTML=format(hourR)+":"+format(minuteR)+":"+format(secondR);
+    }
+
+    // 格式化日期数字
+    function format(timeNumber){
+        if(timeNumber==0){
+            return "00";
+        }else if(timeNumber<10){
+            return "0"+timeNumber;
+        }else{
+            return timeNumber;
+        }
+    }
+
+    window.setInterval("showCount()",1000);
+
+</script>
+<body>
+<fieldset style="width:250px; margin:0px auto">
+    <p>
+    <h2>试卷管理</h2>
+    </p>
+</fieldset>
+
+<div class="data_content">
+
+    <div class="data_list">
+        <div class="data_content">
+            <!--<form action="getDetailPaper" method="post" onsubmit="return checkForm()">-->
+            <form class="form-horizontal" th:action="@{/getDetailPaper}" th:object="${paper}" method="post" >
+                <table width="40%" >
+                    <tr>
+                            <td>
+                                <strong>考试试卷:</strong>
+                                <select th:field="*{id}">
+                                    <option value="">请选择...</option>
+                                    <option th:each="paper : ${paperList}" th:value="${paper.id}" th:utext="${paper.paperName}"/>
+                                </select>
+                                <input type="submit" class="btn-mini  btn-primary" value="查询"/>
+                            </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <br/>
+
+    <!--<div class="data_info">-->
+        <strong><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;考试卷：<strong>[[${paper.paperName}]]</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            计时：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font id="useTime" style="font-weight: bold;"></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            剩余时间：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font id="remainTime" style="font-weight: bold;"></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <!--</div>-->
+            <br/>
+            <br/>
+
+    <strong><big>一，单选题</big></strong><br/><br/>
+    <div th:each="s,status : ${squestionList}">
+        <strong><td th:text="${status.index+1}"></td>.&nbsp;<td th:text="${s.subject }"></td></strong><br/>
+        &nbsp;&nbsp; <label class="radio-inline"> <input type="radio" th:name="'id-c-'+${s.id }" th:value="A" th:text="${s.optionA }"> </label><br/>
+        &nbsp;&nbsp; <label class="radio-inline"> <input type="radio" th:name="'id-c-'+${s.id }" th:value="B" th:text="${s.optionB }"> </label><br/>
+        &nbsp;&nbsp; <label class="radio-inline"> <input type="radio" th:name="'id-c-'+${s.id }" th:value="C" th:text="${s.optionC }"> </label><br/>
+        &nbsp;&nbsp; <label class="radio-inline"> <input type="radio" th:name="'id-c-'+${s.id }" th:value="D" th:text="${s.optionD }"> </label><br/>
+        <!--<div name ="typediv1"  class="col-lg-3 col-sm-6"  >-->
+            <strong name="hidden"  style="display:none;" >[&nbsp;答案&nbsp;]&nbsp;[[${s.answer }]]</strong><br/><br/>
+        <!--</div>-->
+    </div><br/>
+
+    <strong><big>二，多选题</big></strong><br/><br/>
+    <div th:each="m,status : ${mquestionList}">
+        <strong><td th:text="${status.index+1}"></td>.&nbsp;<td th:text="${m.subject }"></td></strong><br/>
+        &nbsp;&nbsp; <label class="check-box"><input type="checkbox" name="id-c-${m.id }" th:value="A" th:text="${m.optionA }"></label><br/>
+        &nbsp;&nbsp; <label class="check-box"><input type="checkbox" name="id-c-${m.id }" th:value="B" th:text="${m.optionB }"></label><br/>
+        &nbsp;&nbsp; <label class="check-box"><input type="checkbox" name="id-c-${m.id }" th:value="C" th:text="${m.optionC }"></label><br/>
+        &nbsp;&nbsp; <label class="check-box"><input type="checkbox" name="id-c-${m.id }" th:value="D" th:text="${m.optionD }"></label><br/>
+     <!--<div name ="typediv1"  class="col-lg-3 col-sm-6"  >-->
+         <strong name="hidden" style="display:none;" >[&nbsp;答案&nbsp;]&nbsp;[[${m.answer }]]</strong><br/><br/>
+     <!--</div>-->
+    </div>
+    <br/>
+    <br/>
+    <button class="btn btn-primary" type="button" onclick = "return checkForm()" >查询答案</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-primary" type="button" onclick="javascript:history.back()">返回</button>&nbsp;&nbsp;
+</div>
+</body>
+</html>

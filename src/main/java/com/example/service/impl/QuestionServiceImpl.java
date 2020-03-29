@@ -26,17 +26,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDto> getQuestions(String subject, PageBean pageBean,Integer paperId) throws Exception{
-        int start = (pageBean.getPage() - 1) * pageBean.getPageSize();
-        return questionMapper.getQuestions(subject, start,pageBean.getPageSize(),paperId);
-    }
-
-    @Override
-    public int questionCount(String subject,Integer paperId) throws Exception {
-        return questionMapper.questionCount(subject,paperId);
-    }
-
-    @Override
     public QuestionDto getQuestionById(Integer questionId) {
         return questionMapper.getQuestionById(questionId);
     }
@@ -44,10 +33,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void saveQuestion(Question question) {
         if(question.getId()!=null){
-            questionMapper.updateByPrimaryKey(question);
+            questionMapper.updateByPrimaryKeySelective(question);
         }else {
-            questionMapper.insert(question);
+            questionMapper.insertSelective(question);
         }
 
+    }
+
+    @Override
+    public List<QuestionDto> getQuestionsByPaperId(Integer paperId) {
+        return questionMapper.getQuestionsByPaperId(paperId);
     }
 }

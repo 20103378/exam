@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改页面</title>
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+
+<fieldset style="width:180px; margin:0px auto">
+    <p>
+    <h2>[[${title}]]</h2>
+    </p>
+</fieldset>
+
+<form class="form-horizontal" th:action="@{/paperSavePaper}" th:object="${paper}" method="post" style="width: 45%;margin:0px auto">
+    <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">编号:</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" th:field="*{id}" id="id" readonly="readonly">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">试卷名称:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" th:field="*{paperName}" placeholder="请输入试卷名称">
+        </div>
+    </div>
+    <div class="form-group" style="text-align: center">
+        <a th:href="@{/paperSavePaper}">
+            <input class="btn btn-info" type="submit" value="提交">
+        </a>
+        <!--<a href="paperSave.html" th:href="@{/update}">-->
+            <!--<input class="btn btn-info" type="submit" value="重置">-->
+        <!--</a>-->
+        <a href="paperList.html" th:href="@{/paperList}">
+            <input class="btn btn-info" type="submit" value="返回">
+        </a>
+    </div>
+</form>
+
+
+</body>
+</html>

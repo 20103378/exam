@@ -6,8 +6,12 @@ import com.example.entity.Question;
 import com.example.mapper.PaperMapper;
 import com.example.mapper.QuestionMapper;
 import com.example.service.PaperService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.function.ServerResponse;
 
 import java.util.List;
 
@@ -43,6 +47,7 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean deletePaper(Integer paperId) {
         questionMapper.deleteByPaperId(paperId);
         paperMapper.deleteByPrimaryKey(paperId);
@@ -52,9 +57,9 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public void savePaper(Paper paper) {
         if(paper.getId()!=null){
-            paperMapper.updateByPrimaryKey(paper);
+            paperMapper.updateByPrimaryKeySelective(paper);
         }else {
-            paperMapper.insert(paper);
+            paperMapper.insertSelective(paper);
         }
     }
 

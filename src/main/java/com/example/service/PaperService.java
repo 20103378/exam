@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Administrator on 2018/7/2.
  */
 public interface PaperService {
+
     PaperDto getPaperById(Integer paperId);
 
     List<Paper> getPaperList();

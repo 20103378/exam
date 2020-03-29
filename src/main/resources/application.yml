@@ -1,0 +1,41 @@
+#server端口配置
+server:
+  port: 8082
+
+#数据库连接配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/online_system?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 19910227730X
+    #数据源配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+  #HTML配置
+  thymeleaf:
+    # 模板存放路径
+    prefix: classpath:/templates/
+    # 模板后缀
+    suffix: .html
+    # 启用缓存，建议生产开启
+    cache: false
+    # 是否启用
+    enabled: true
+    # 模板编码
+    encoding: UTF-8
+
+  #热部署配置
+  devtools:
+    livereload:
+      enabled: true  #是否支持livereload
+    restart:
+      enabled: true  #是否支持热部署
+
+#Mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml       #mapper.xml 文件地址
+pagehelper:
+  helperDialect: mysql
+  params: count=countSql
+  reasonable: true
+  supportMethodsArguments: true
