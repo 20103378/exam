@@ -1,0 +1,10 @@
+1.使用管理员权限启动net start mysql
+2.后台运行程序 java -jar jar包目录/demo-0.0.1-SNAPSHOT.jar& 或 nohup java -jar demo-0.0.1-SNAPSHOT.jar &
+3.D:\javatool盘点击netapp.exe进入控制台界面 natapp -authtoken=9346db120b42fbc1
+
+
+2.外网映射工具 https://natapp.cn/tunnel/edit/976el3d4p8
+  Natapp网址ngrok
+  https://natapp.cn/
+  windows环境运行
+  运行   natapp -authtoken=9346db120b42fbc1
